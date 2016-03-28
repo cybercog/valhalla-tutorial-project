@@ -50,11 +50,11 @@ class AuthController extends Controller
 
         $app = $request->__authenticatedApp;
 
-        if (! $code || ! $user = $app->users()->wherePivot('authorisation_code', $code)->first()) {
+        if (! $code || ! $user = $app->users()->wherePivot('authorization_code', $code)->first()) {
             return response('invalid_code', 400);
         }
 
-        $app->users()->updateExistingPivot($user->id, ['authorisation_code' => null]);
+        $app->users()->updateExistingPivot($user->id, ['authorization_code' => null]);
 
         return response([
             'token_type' => 'Bearer',

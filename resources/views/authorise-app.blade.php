@@ -14,7 +14,7 @@
 <div class="container">
     @if(isset($invalid))
         <div class="alert alert-danger text-center">
-            Invalid authorisation request.
+            Invalid authorization request.
         </div>
     @else
 

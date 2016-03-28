@@ -33,6 +33,6 @@ $router->group(['prefix' => 'api/v1'], function ($router) {
     $router->get('/user-data', 'Api\HomeController@userData')->middleware('auth.api.user');
 });
 
-// Authorise an application for user data...
-$router->get('/authorise', 'HomeController@showAuthorisationForm')->middleware('web');
-$router->post('/authorise', 'HomeController@authoriseApp')->middleware('web');
+// Authorize an application for user data...
+$router->get('/authorize', 'HomeController@showAuthorizationForm')->middleware('web');
+$router->post('/authorize', 'HomeController@authorizeApp')->middleware('web');

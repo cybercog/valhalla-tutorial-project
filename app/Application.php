@@ -8,13 +8,13 @@ use Firebase\JWT\JWT;
 class Application extends Model
 {
     /**
-     * Users who authorised this application.
+     * Users who authorized this application.
      *
      * @return $this
      */
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('authorisation_code');
+        return $this->belongsToMany(User::class)->withPivot('authorization_code');
     }
 
     /**

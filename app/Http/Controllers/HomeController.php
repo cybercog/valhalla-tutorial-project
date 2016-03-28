@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\Validator;
 class HomeController extends Controller
 {
     /**
-     * Show a form for the user to authorise a 3rd party app.
+     * Show a form for the user to authorize a 3rd party app.
      *
      * @param Request $request
      */
-    public function showAuthorisationForm(Request $request)
+    public function showAuthorizationForm(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'app_key' => 'required|exists:applications,key,is_active,1',
@@ -23,20 +23,20 @@ class HomeController extends Controller
         ]);
 
         if (! $validator->passes()) {
-            return view('authorise-app')->withInvalid('true');
+            return view('authorize-app')->withInvalid('true');
         }
 
         $app = Application::whereKey($request->app_key)->first();
 
-        return view('authorise-app', compact('app'));
+        return view('authorize-app', compact('app'));
     }
 
     /**
-     * Authorise an application to communicate on behalf of user.
+     * Authorize an application to communicate on behalf of user.
      *
      * @param Request $request
      */
-    public function authoriseApp(Request $request)
+    public function authorizeApp(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'app_key' => 'required|exists:applications,key,is_active,1',
@@ -44,7 +44,7 @@ class HomeController extends Controller
         ]);
 
         if (! $validator->passes()) {
-            return redirect()->back()->withMessage('Invalid authorisation parameters.');
+            return redirect()->back()->withMessage('Invalid authorization parameters.');
         }
 
         if (! Auth::validate($request->only(['email', 'password']))) {
@@ -55,7 +55,7 @@ class HomeController extends Controller
 
         $user = User::whereEmail($request->email)->first();
 
-        $pivotData = ['authorisation_code' => $code = sha1($app->id.':'.$user->id.str_random())];
+        $pivotData = ['authorization_code' => $code = sha1($app->id.':'.$user->id.str_random())];
 
         if ($app->users->contains($user)) {
             $app->users()->updateExistingPivot($user->id, $pivotData);
