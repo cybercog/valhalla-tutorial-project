@@ -22,13 +22,17 @@ Route::group(['middleware' => ['web']], function () {
 
 $router->group(['prefix' => 'api/v1'], function ($router) {
     // Applications Authentication...
-        $router->post('/auth/app', 'Api\AuthController@authenticateApp');
+    $router->post('/auth/app', 'Api\AuthController@authenticateApp');
 
     // Users Authentication...
-    $router->post('/auth/user', 'Api\AuthController@authenticateUser');
-    $router->post('/auth/user/logout', 'Api\AuthController@logoutUser');
+    $router->post('/auth/user', 'Api\AuthController@authenticateUser')->middleware('auth.api.app');
+    $router->post('/auth/user/logout', 'Api\AuthController@logoutUser')->middleware('auth.api.user');
 
     // Testing routes...
-    $router->get('/application-data', 'Api\ApplicationController@data');
-    $router->get('/user-data', 'Api\UserController@data');
+    $router->get('/application-data', 'Api\HomeController@appData')->middleware('auth.api.app');
+    $router->get('/user-data', 'Api\HomeController@userData')->middleware('auth.api.user');
 });
+
+// Authorise an application for user data...
+$router->get('/authorise', 'HomeController@showAuthorisationForm')->middleware('web');
+$router->post('/authorise', 'HomeController@authoriseApp')->middleware('web');
