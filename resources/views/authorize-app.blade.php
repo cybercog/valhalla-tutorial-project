@@ -24,7 +24,7 @@
             </div>
         @endif
 
-        <form class="form-horizontal" role="form" method="POST" action="{{ url('/authorise') }}">
+        <form class="form-horizontal" role="form" method="POST" action="{{ url('/authorize') }}">
             {!! csrf_field() !!}
             <input type="hidden" name="app_key" value="{{ request('app_key') }}">
             <input type="hidden" name="redirect_uri" value="{{ request('redirect_uri') }}">

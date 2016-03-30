@@ -57,11 +57,7 @@ class HomeController extends Controller
 
         $pivotData = ['authorization_code' => $code = sha1($app->id.':'.$user->id.str_random())];
 
-        if ($app->users->contains($user)) {
-            $app->users()->updateExistingPivot($user->id, $pivotData);
-        } else {
-            $app->users()->attach($user->id, $pivotData);
-        }
+        $app->users()->sync([$user->id => $pivotData], false);
 
         return redirect()->away($request->redirect_uri.'?code='.$code);
     }
